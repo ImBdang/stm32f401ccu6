@@ -1,0 +1,5 @@
+*.c
+old/ 
+src/main.c
+docs/
+build/
