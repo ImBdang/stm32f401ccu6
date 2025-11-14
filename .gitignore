@@ -1,4 +1,4 @@
-*.c
+src_ignore/
 old/ 
 src/main.c
 docs/
