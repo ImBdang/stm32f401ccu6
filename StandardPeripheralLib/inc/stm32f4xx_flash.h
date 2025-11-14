@@ -352,7 +352,7 @@ FLASH_Status FLASH_ProgramHalfWord(uint32_t Address, uint16_t Data);
 FLASH_Status FLASH_ProgramByte(uint32_t Address, uint8_t Data);
 
 /* Option Bytes Programming functions *****************************************/ 
-void          FLASH_OB_Unlock(void);
+void         FLASH_OB_Unlock(void);
 void         FLASH_OB_Lock(void);
 void         FLASH_OB_WRPConfig(uint32_t OB_WRP, FunctionalState NewState);
 void         FLASH_OB_WRP1Config(uint32_t OB_WRP, FunctionalState NewState);
