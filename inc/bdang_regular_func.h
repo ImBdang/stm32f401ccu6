@@ -1,0 +1,6 @@
+#ifndef BDANG_REGULAR_FUNC
+#define BDANG_REGULAR_FUNC
+
+
+
+#endif

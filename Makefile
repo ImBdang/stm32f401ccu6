@@ -15,7 +15,8 @@ ASM := $(PREFIX_TOOLCHAINS)-as
 
 # ============================== Directories ==============================
 SRC_DIR := src
-INC_DIR := StandardPeripheralLib/inc
+INC_CUS_DIR := inc
+INC_STL_DIR := StandardPeripheralLib/inc
 SRC_INC_DIR := StandardPeripheralLib/src
 BUILD_DIR := build
 BUILD_INC_DIR := $(BUILD_DIR)/inc
@@ -33,7 +34,7 @@ OBJECTS_MAIN := $(SRC_FILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 # Compiler flags
 CFLAGS := -mcpu=$(MCU) -mthumb $(FPU) $(FLOAT_ABI) -Wall -O0 -g \
-          -I$(INC_DIR) -I$(SRC_INC_DIR)\
+          -I$(INC_CUS_DIR) -I$(SRC_INC_DIR) -I$(INC_STL_DIR)\
           -DSTM32F40XX \
           -DUSE_STDPERIPH_DRIVER \
           -ffunction-sections -fdata-sections
