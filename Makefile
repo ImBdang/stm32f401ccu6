@@ -93,3 +93,12 @@ flash: $(BUILD_DIR)/$(PROJECT).bin
 	@echo "Flashing to STM32..."
 	st-flash write $< 0x8000000
 	@echo "Flash complete!"
+
+# Debug
+debug: 
+	gdb-multiarch build/main.elf \
+    -ex "target extended-remote localhost:3333" \
+    -ex "monitor reset halt" \
+    -ex "load" \
+    -ex "break main" \
+    -ex "continue"
