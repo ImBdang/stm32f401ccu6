@@ -8,6 +8,10 @@
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_usart.h"
 #include "stm32f4xx_flash.h"
+#include "core_cm4.h"
+
+/* Global variable ---------------------------------------------- */
+uint32_t msTicks = 0;
 
 /* Macro zone --------------------------------------------------- */
 
@@ -16,23 +20,38 @@
 void bdang_init_clock(void);
 void bdang_init_gpio(void);
 void bdang_init_usart2(void);
+void delay_ms(uint32_t ms);
+void bdang_init_systick(uint32_t ticks);
+void bdang_usart_sendstring(USART_TypeDef *USARTx, const char *str);
 
 /* Main func ---------------------------------------------------- */
 void main(void){
   bdang_init_clock();      
   bdang_init_gpio();       
   bdang_init_usart2(); 
+  SystemCoreClockUpdate();
+  bdang_init_systick(1000);
 
   while (1){
-    USART_SendData(USART2, 'A');
-    while(USART_GetFlagStatus(USART2, USART_FLAG_TXE) == RESET);
-    // while(USART_GetFlagStatus(USART2, USART_FLAG_RXNE) == RESET);
-    // uint16_t tmp;
-    // tmp = USART_ReceiveData(USART2);
+    bdang_usart_sendstring(USART2, "bdang");
+    delay_ms(1000);
   }
 }
 
 /* Definetion zone ---------------------------------------------- */
+/**
+ * @brief Send each char in a string
+ * 
+ * @retval None
+ */
+void bdang_usart_sendstring(USART_TypeDef *USARTx, const char *str) {
+    while (*str) {
+        USART_SendData(USARTx, *str++);
+        while (USART_GetFlagStatus(USARTx, USART_FLAG_TXE) == RESET);
+    }
+}
+
+
 /**
  * @brief Use HSI as the PLLSRC, PLLSRC is used for SYSCLK with 64Mhz
  * 
@@ -100,4 +119,35 @@ void bdang_init_usart2(void){
   };
   USART_Init(USART2, &usart2_config);
   USART_Cmd(USART2, ENABLE);
+}
+
+/**
+ * @brief Handler systick 
+ * 
+ * @retval None
+ */
+void SysTick_Handler(void){
+    msTicks++;
+}
+
+/**
+ * @brief Basic delay by systick
+ * 
+ * @retval None
+ */
+void delay_ms(uint32_t ms) {
+    uint32_t start = msTicks;
+    while ((msTicks - start) < ms) {
+    }
+}
+
+/**
+ * @brief Config systick
+ * 
+ * @retval None
+ */
+void bdang_init_systick(uint32_t ticks){
+  if (SysTick_Config(SystemCoreClock / ticks) != 0) {
+    while(1); 
+  }
 }
