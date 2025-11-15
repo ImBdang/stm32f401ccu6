@@ -45,11 +45,11 @@ void bdang_init_clock(void){
   RCC_HSICmd(ENABLE);
   while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
   RCC_PLLConfig(
-      RCC_PLLSource_HSI,                    // Source: HSI 16MHz
-      8,                                    // PLLM: 16/8 = 2MHz (VCO input)
-      256,                                  // PLLN: 2x256 = 512MHz (VCO output)
-      6,                                    // PLLP: 512/8 = 64MHz (SYSCLK) 
-      10                                    // PLLQ: 512/10 = 51.2MHz (gần 48MHz)
+    RCC_PLLSource_HSI,
+    8,                            // M: 16/8 = 2MHz
+    192,                          // N: 2×192 = 384MHz 
+    6,                            // P: 384/6 = 64MHz 
+    8                             // Q: 384/8 = 48MHz 
   );
   RCC_PLLCmd(ENABLE);
   while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET){}; 
