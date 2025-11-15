@@ -23,6 +23,7 @@ void bdang_init_usart2(void);
 void delay_ms(uint32_t ms);
 void bdang_init_systick(uint32_t ticks);
 void bdang_usart_sendstring(USART_TypeDef *USARTx, const char *str);
+uint8_t bdang_usart_receive(USART_TypeDef* USARTx);
 
 /* Main func ---------------------------------------------------- */
 void main(void){
@@ -33,7 +34,9 @@ void main(void){
   bdang_init_systick(1000);
 
   while (1){
+    uint8_t tmp;
     bdang_usart_sendstring(USART2, "bdang");
+    tmp = bdang_usart_receive(USART2);
     delay_ms(1000);
   }
 }
@@ -51,6 +54,15 @@ void bdang_usart_sendstring(USART_TypeDef *USARTx, const char *str) {
     }
 }
 
+/**
+ * @brief Receive usart 
+ * 
+ * @retval None 
+ */
+uint8_t bdang_usart_receive(USART_TypeDef* USARTx) {
+    while (USART_GetFlagStatus(USARTx, USART_FLAG_RXNE) == RESET);
+    return (uint8_t)USART_ReceiveData(USARTx);
+}
 
 /**
  * @brief Use HSI as the PLLSRC, PLLSRC is used for SYSCLK with 64Mhz
