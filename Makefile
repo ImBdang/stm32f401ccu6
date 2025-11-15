@@ -39,8 +39,12 @@ CFLAGS := -mcpu=$(MCU) -mthumb $(FPU) $(FLOAT_ABI) -Wall -O0 -g \
           -DUSE_STDPERIPH_DRIVER \
           -ffunction-sections -fdata-sections
 
-LDFLAGS := -T$(LINKER_DIR)/$(LD_SCRIPT) --specs=nosys.specs \
-           -Wl,--gc-sections -Wl,-Map=$(BUILD_DIR)/$(PROJECT).map
+LDFLAGS := -T$(LINKER_DIR)/$(LD_SCRIPT) \
+				   --specs=nosys.specs \
+				   --specs=nano.specs \
+				   -Wl,--gc-sections \
+				   -Wl,-Map=$(BUILD_DIR)/$(PROJECT).map \
+				   -Wl,--no-warn-rwx-segments
 
 # Rules
 .PHONY: all clean flash bin hex
