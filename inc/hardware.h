@@ -97,7 +97,7 @@ typedef struct {
 
 /* system */
 void hardware_init(void);
-uint32_t sys_get_tick_ms();
+// uint32_t sys_get_tick_ms();
 
 /* button */
 uint32_t button_read(uint32_t pin);
