@@ -9,6 +9,8 @@
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
 #include "stm32f4xx_usart.h"
+#include "core_cm4.h"
+#include "system_stm32f4xx.h"
 
 #define LED_ON 1
 #define LED_OFF 0
@@ -108,5 +110,9 @@ void hw_led_config(uint8_t pin);
 void hw_led_write(uint8_t pin, uint8_t state);
 void switch_init(void);
 uint8_t switch_read(uint8_t index);
+
+/* Bdang code ---------------------------------------------------*/
+void led_green_init(void);
+void led_green_blink(uint32_t ms);
 
 #endif
