@@ -12,6 +12,8 @@
 #include "core_cm4.h"
 #include "system_stm32f4xx.h"
 
+#include "bdang_regular_func.h"
+
 #define LED_ON 1
 #define LED_OFF 0
 
