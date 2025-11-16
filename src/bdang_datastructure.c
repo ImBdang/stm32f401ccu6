@@ -10,7 +10,7 @@
  * @retval None
  */
 void init_ring_buffer(Ring_buffer* ring_buffer, uint8_t* buffer, size_t size){
-    if (size < 2) return;
+    if (size < 2 || !ring_buffer || !buffer) return; 
     ring_buffer->buffer = buffer;
     ring_buffer->size = size;
     ring_buffer->head = 0;
@@ -27,7 +27,7 @@ void init_ring_buffer(Ring_buffer* ring_buffer, uint8_t* buffer, size_t size){
  * @retval 1 if is success
  */
 uint8_t enqueue_ring_buffer(Ring_buffer* ring_buffer, uint8_t data){
-    if (ring_isFull(ring_buffer) != 0)
+    if (ring_isFull(ring_buffer))
         return 0;
     ring_buffer->buffer[ring_buffer->head] = data;
     ring_buffer->head = (ring_buffer->head + 1) % ring_buffer->size;
@@ -44,7 +44,7 @@ uint8_t enqueue_ring_buffer(Ring_buffer* ring_buffer, uint8_t data){
  * @retval 1 if it success
  */
 uint8_t dequeue_ring_buffer(Ring_buffer* ring_buffer, uint8_t* data_return){
-    if (ring_isEmpty(ring_buffer) == 1)
+    if (ring_isEmpty(ring_buffer))
         return 0;
     *data_return = ring_buffer->buffer[ring_buffer->tail];
     ring_buffer->tail = (ring_buffer->tail + 1) % ring_buffer->size;
